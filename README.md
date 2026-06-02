@@ -1,46 +1,66 @@
-# Notice
+# Aruba Instant AP — Home Assistant Integration
 
-The component and platforms in this repository are not meant to be used by a
-user, but as a "blueprint" that custom component developers can build
-upon, to make more awesome stuff.
+A custom integration for Home Assistant that tracks devices connected to an Aruba Instant AP using the local REST API (no Aruba Central required).
 
-HAVE FUN! 😎
+## Features
 
-## Why?
+- **Device Tracker** — marks devices home/away based on Wi-Fi association
+- **Extra attributes per device:**
+  - `MAC` — Client MAC Address
+  - `Host name` — Client host name
+  - `access_point` — which AP the device is connected to
+  - `essid` — the SSID/network name
+  - `ip_address` — current IP address
+  - `os` — operating system detected by the IAP
+  - `channel` — Wi-Fi channel
+  - `signal` — signal strength
+  - `speed` — link speed
+- **Config Flow** — set up entirely from the HA UI, no YAML required
+- **Track new devices toggle** — choose whether newly discovered devices are tracked by default (off by default)
+- **Friendly name renaming** — rename any device via the HA entity registry
 
-This is simple, by having custom_components look (README + structure) the same
-it is easier for developers to help each other and for users to start using them.
+## Requirements
 
-If you are a developer and you want to add things to this "blueprint" that you think more
-developers will have use for, please open a PR to add it :)
+- Aruba Instant AOS 8.5.0+ (REST API support)
+- Admin account for API
+- REST API must be enabled on the IAP:
 
-## What?
+```
+(Instant AP)(config)# allow-rest-api
+(Instant AP)(config)# end
+(Instant AP)# commit apply
+```
 
-This repository contains multiple files, here is a overview:
+## Installation
 
-File | Purpose | Documentation
--- | -- | --
-`.devcontainer.json` | Used for development/testing with Visual Studio Code. | [Documentation](https://code.visualstudio.com/docs/remote/containers)
-`.github/ISSUE_TEMPLATE/*.yml` | Templates for the issue tracker | [Documentation](https://help.github.com/en/github/building-a-strong-community/configuring-issue-templates-for-your-repository)
-`custom_components/Aruba_AP_Device_Tracker/*` | Integration files, this is where everything happens. | [Documentation](https://developers.home-assistant.io/docs/creating_component_index)
-`CONTRIBUTING.md` | Guidelines on how to contribute. | [Documentation](https://help.github.com/en/github/building-a-strong-community/setting-guidelines-for-repository-contributors)
-`LICENSE` | The license file for the project. | [Documentation](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/licensing-a-repository)
-`README.md` | The file you are reading now, should contain info about the integration, installation and configuration instructions. | [Documentation](https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax)
-`requirements.txt` | Python packages used for development/lint/testing this integration. | [Documentation](https://pip.pypa.io/en/stable/user_guide/#requirements-files)
+### HACS (recommended)
+### Not published in HACS (YET)
+1. Add this repo as a custom repository in HACS
+2. Install "Aruba IAP Device Tracker"
+3. Restart Home Assistant
 
-## How?
+### Manual
+1. Copy the `custom_components/Aruba_IAP_Device_Tracker` folder into your HA `config/custom_components/` directory
+2. Restart Home Assistant
 
-1. Create a new repository in GitHub, using this repository as a template by clicking the "Use this template" button in the GitHub UI.
-1. Open your new repository in Visual Studio Code devcontainer (Preferably with the "`Dev Containers: Clone Repository in Named Container Volume...`" option).
-1. Rename all instances of the `Aruba_AP_Device_Tracker` to `custom_components/<your_integration_domain>` (e.g. `custom_components/awesome_integration`).
-1. Rename all instances of the `Aruba  AP Device Tracker` to `<Your Integration Name>` (e.g. `Awesome Integration`).
-1. Run the `scripts/develop` to start HA and test out your new integration.
+## Setup
 
-## Next steps
+1. Go to **Settings → Devices & Services → Add Integration**
+2. Search for **Aruba IAP Device Tracker**
+3. Enter:
+   - **IP Address** — your IAP/VC IP (e.g. `192.168.1.10`)
+   - **Username** — IAP admin username
+   - **Password** — IAP admin password
+   - **Track new devices by default** — toggle on/off
 
-These are some next steps you may want to look into:
-- Add tests to your integration, [`pytest-homeassistant-custom-component`](https://github.com/MatthewFlamm/pytest-homeassistant-custom-component) can help you get started.
-- Add brand images (logo/icon).
-- Create your first release.
-- Share your integration on the [Home Assistant Forum](https://community.home-assistant.io/).
-- Submit your integration to [HACS](https://hacs.xyz/docs/publish/start).
+## Options
+
+After setup, click **Configure** on the integration to change the track-new-devices default.
+
+## Renaming Devices
+
+Go to **Settings → Devices & Services → Aruba IAP Device Tracker**, click a device entity, then click the pencil icon to give it a friendly name. This is stored in the HA entity registry and persists across restarts.
+
+## Polling Interval
+
+Devices are polled every 30 seconds by default. Change `SCAN_INTERVAL_SECONDS` in `const.py` if needed.
