@@ -1,5 +1,5 @@
 {
-    "name": "ludeeus/Aruba _AP_Device_Tracker",
+    "name": "Jam3s97/Aruba _AP_Device_Tracker",
     "image": "mcr.microsoft.com/devcontainers/base:debian",
     "postCreateCommand": "scripts/setup",
     "forwardPorts": [

@@ -48,7 +48,7 @@ Use [black](https://github.com/ambv/black) to make sure the code follows the sty
 
 ## Test your code modification
 
-This custom component is based on [Aruba _AP_Device_Tracker template](https://github.com/ludeeus/Aruba _AP_Device_Tracker).
+This custom component is based on [Aruba _AP_Device_Tracker template](https://github.com/Jam3s97/Aruba _AP_Device_Tracker).
 
 It comes with development environment in a container, easy to launch
 if you use Visual Studio Code. With this container you will have a stand alone
