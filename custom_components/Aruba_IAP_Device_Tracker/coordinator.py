@@ -1,4 +1,4 @@
-"""DataUpdateCoordinator for integration_blueprint."""
+"""DataUpdateCoordinator for Aruba _AP_Device_Tracker."""
 
 from __future__ import annotations
 
