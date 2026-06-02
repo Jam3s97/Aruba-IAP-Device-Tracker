@@ -1,6 +1,6 @@
 """Constants for the Aruba IAP Device Tracker integration."""
 
-DOMAIN = "Aruba_IAP_Device_Tracker"
+DOMAIN = "aruba_iap"
 
 CONF_TRACK_NEW = "track_new_devices"
 CONF_SCAN_INTERVAL = "scan_interval"
