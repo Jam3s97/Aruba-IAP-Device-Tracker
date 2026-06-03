@@ -40,7 +40,6 @@ Disclaimer: This is an unofficial integration and is not affiliated with or endo
 ## Installation
 
 ### HACS (recommended)
-### ⚠️ Not published in HACS.
 1. Add this repository as a custom repository in HACS
 2. Search for "Aruba Device Tracker" and install
 3. Restart Home Assistant
