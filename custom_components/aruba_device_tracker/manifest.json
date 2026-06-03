@@ -1,6 +1,6 @@
 {
   "domain": "aruba_iap",
-  "name": "aruba device tracker",
+  "name": "Aruba Device Tracker",
   "version": "1.1.0",
   "config_flow": true,
   "documentation": "https://github.com/Jam3s97/aruba_device_tracker",
