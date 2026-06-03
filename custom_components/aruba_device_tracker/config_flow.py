@@ -130,7 +130,7 @@ class ArubaIAPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         config_entry: config_entries.ConfigEntry,
     ) -> ArubaIAPOptionsFlow:
         """Return the options flow handler."""
-        return ArubaIAPOptionsFlow(config_entry)
+        return ArubaIAPOptionsFlow()
 
 
 class ArubaIAPOptionsFlow(config_entries.OptionsFlow):
