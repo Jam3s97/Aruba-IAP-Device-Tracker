@@ -93,6 +93,24 @@ class ArubaIAPClient:
                 timeout=10,
             )
             data = resp.json()
+        except requests.exceptions.ConnectTimeout:
+            _LOGGER.warning(
+                "Aruba IAP login timed out connecting to %s — AP may be unreachable",
+                self.host,
+            )
+            return False
+        except requests.exceptions.ConnectionError:
+            _LOGGER.warning(
+                "Aruba IAP login connection error for %s — check host/network",
+                self.host,
+            )
+            return False
+        except requests.exceptions.JSONDecodeError:
+            _LOGGER.warning(
+                "Aruba IAP login returned an invalid response from %s",
+                self.host,
+            )
+            return False
         except Exception:
             _LOGGER.exception("Aruba IAP login failed unexpectedly")
             return False
@@ -139,6 +157,7 @@ class ArubaIAPClient:
             f"?iap_ip_addr={self.host}&cmd={encoded_cmd}&sid={self._sid}"
         )
 
+        output: str | None = None
         try:
             resp = requests.get(
                 url,
@@ -174,15 +193,34 @@ class ArubaIAPClient:
                     data.get("Status-code"),
                     data.get("Error message"),
                 )
-                return None
+            else:
+                raw = data.get("Command output", "")
+                output = raw.replace("\\n", "\n").replace("\\r", "\r")
 
-            output = data.get("Command output", "")
-            return output.replace("\\n", "\n").replace("\\r", "\r")
-
-        except Exception:
-            _LOGGER.exception("Aruba IAP show-cmd exception")
+        except requests.exceptions.JSONDecodeError:
+            _LOGGER.warning(
+                "Aruba IAP returned empty/invalid response for cmd '%s' "
+                "(AP may be busy or session dropped) — will retry next poll",
+                cmd,
+            )
             self._sid = None
-            return None
+        except requests.exceptions.Timeout:
+            _LOGGER.warning(
+                "Aruba IAP timed out running cmd '%s' — will retry next poll",
+                cmd,
+            )
+            self._sid = None
+        except requests.exceptions.ConnectionError:
+            _LOGGER.warning(
+                "Aruba IAP connection error running cmd '%s' — AP may be unreachable",
+                cmd,
+            )
+            self._sid = None
+        except Exception:
+            _LOGGER.exception("Aruba IAP show-cmd unexpected exception")
+            self._sid = None
+
+        return output
 
     def get_clients(self) -> dict[str, dict[str, Any]] | None:
         """
