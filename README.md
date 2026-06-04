@@ -44,7 +44,6 @@ Disclaimer: This is an unofficial integration and is not affiliated with or endo
 1. Add this repository as a custom repository in HACS
 2. Search for "Aruba Device Tracker" and install
 3. Restart Home Assistant
-4. Add the integration via Settings > Devices & Services > Add Integration
 
 ### Manual
 1. Copy the `custom_components/aruba_device_tracker` folder into your HA `config/custom_components/` directory
@@ -63,7 +62,8 @@ Disclaimer: This is an unofficial integration and is not affiliated with or endo
 
 ## Options
 
-After setup, click **Configure** on the integration to change the track-new-devices default.
+After setup, the options for polling interval and track new devices are available in the integration.
+To change the IP or user credentials click **Configure** on the integration.
 
 ## Renaming Devices
 
