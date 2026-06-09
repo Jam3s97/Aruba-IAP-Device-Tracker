@@ -231,4 +231,3 @@ class ArubaClientEntity(ScannerEntity):
     def entity_registry_enabled_default(self) -> bool:
         """Return whether this entity is enabled when first created."""
         return self._new_device_defaults_tracked
-        
